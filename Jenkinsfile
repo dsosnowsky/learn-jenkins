@@ -1,8 +1,8 @@
 pipeline {
     agent any
 
-    environment {
-        VERSION = "1.1"
+    parameters {
+        string(name: 'VERSION', defaultValue: 'latest', description: 'Build version')
     }
 
     stages {
