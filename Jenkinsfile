@@ -11,9 +11,10 @@ pipeline {
         stage ('Test image') {
             steps {
                 sh '''
-                    docker container run -it dsosnowsky/apache:${VERSION}
-                    apachectl configtest
-                    exit
+                    docker container run -d --name apache dsosnowsky/apache:${VERSION}
+                    docker container exec apache apachectl configtest
+                    docker container stop apache
+                    docker container rm apache
                 '''
             }
         }
