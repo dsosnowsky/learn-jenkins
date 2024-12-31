@@ -1,15 +1,14 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'VERSION', defaultValue: 'latest', description: 'Version of the docker build')
+    environment {
+        VERSION = "1.1"
     }
 
     stages {
         stage('Build image') {
             steps {
                 sh '''
-                VERSION=${params.VERSION}
                 sh 'echo "${VERSION}"'
                 '''
             }
