@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'VERSION', defaultValue: 'latest', description: 'Build version')
+    environment {
+        VERSION = "1.1"
     }
 
     stages {
         stage('Build image') {
             steps {
-                echo "$VERSION"
+                sh 'docker build -t dsosnowsky/apache:$VERSION .'
             }
         }
     }
