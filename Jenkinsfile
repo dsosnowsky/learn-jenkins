@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage('Build image') {
-            sh 'docker build -t dsosnowsky/apache .'
+            steps {
+                sh 'docker build -t dsosnowsky/apache .'
+            }
         }
     }
 }
