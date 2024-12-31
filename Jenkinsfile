@@ -9,9 +9,9 @@ pipeline {
         stage('Build image') {
             steps {
                 sh '''
-		VERSION=${params.VERSION}
-                docker build -t dsosnowsky/apache:${VERSION} .
-		'''
+                VERSION=${params.VERSION}
+                sh 'echo "${VERSION}"'
+                '''
             }
         }
     }
