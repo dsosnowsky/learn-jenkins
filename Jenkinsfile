@@ -8,9 +8,7 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
-                sh '''
-                sh 'echo "${VERSION}"'
-                '''
+                echo "$VERSION"
             }
         }
     }
