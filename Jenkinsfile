@@ -26,7 +26,7 @@ pipeline {
         stage ('Push image') {
             steps {
                 sh '''
-                docker login -u dsosnowsky -p ${DOCKER_HUB}
+                docker login -u dsosnowskytest -p ${DOCKER_HUB}
                 docker push dsosnowskytest/apache:${VERSION}
                 '''
             }
