@@ -8,17 +8,17 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
-                sh 'docker build -t ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION} .'
+                sh 'docker build -t ${DOCKER_HUB_CREDENTIALS_USR}/${IMAGE_NAME}:${VERSION} .'
             }
         }
 
         stage ('Test image') {
             steps {
                 sh '''
-                    docker container run -d --name apache ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION}
-                    docker container exec apache apachectl configtest
-                    docker container stop apache
-                    docker container rm apache
+                    docker container run -d --name ${IMAGE_NAME} ${DOCKER_HUB_CREDENTIALS_USR}/${IMAGE_NAME}:${VERSION}
+                    docker container exec ${IMAGE_NAME} apachectl configtest
+                    docker container stop ${IMAGE_NAME}
+                    docker container rm ${IMAGE_NAME}
                 '''
             }
         }
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                 echo ${DOCKER_HUB_CREDENTIALS_PSW} | docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin
-                docker push ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION}
+                docker push ${DOCKER_HUB_CREDENTIALS_USR}/${IMAGE_NAME}:${VERSION}
                 '''
             }
            
