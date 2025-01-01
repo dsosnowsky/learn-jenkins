@@ -20,10 +20,13 @@ pipeline {
         }
 
         stage ('Push image') {
-            sh '''
+            steps {
+                sh '''
                 docker login -u dsosnowsky -p ${PASSWORD}
                 docker push dsosnowsky/apache:${VERSION}
-            '''
+                '''
+            }
+           
         }
     }
 }
