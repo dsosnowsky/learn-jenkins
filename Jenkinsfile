@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB = credentials('docker-hub')
+    }
+
     stages {
         stage('Build image') {
             steps {
@@ -22,7 +26,7 @@ pipeline {
         stage ('Push image') {
             steps {
                 sh '''
-                docker login -u dsosnowsky -p ${PASSWORD}
+                echo "${DOCKER_HUB}"
                 docker push dsosnowsky/apache:${VERSION}
                 '''
             }
