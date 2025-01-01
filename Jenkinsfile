@@ -8,15 +8,14 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
-                sh 'docker build -t dsosnowskytest/apache:${VERSION} .'
+                sh 'docker build -t ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION} .'
             }
         }
 
         stage ('Test image') {
             steps {
                 sh '''
-                    docker logout
-                    docker container run -d --name apache dsosnowskytest/apache:${VERSION}
+                    docker container run -d --name apache ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION}
                     docker container exec apache apachectl configtest
                     docker container stop apache
                     docker container rm apache
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                 echo ${DOCKER_HUB_CREDENTIALS_PSW} | docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin
-                docker push dsosnowskytest/apache:${VERSION}
+                docker push ${DOCKER_HUB_CREDENTIALS_USR}/apache:${VERSION}
                 '''
             }
            
