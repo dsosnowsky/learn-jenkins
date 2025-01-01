@@ -2,20 +2,20 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB = credentials('docker-hub')
+        DOCKER_HUB = credentials('docker-hub-test')
     }
 
     stages {
         stage('Build image') {
             steps {
-                sh 'docker build -t dsosnowsky/apache:${VERSION} .'
+                sh 'docker build -t dsosnowskytest/apache:${VERSION} .'
             }
         }
 
         stage ('Test image') {
             steps {
                 sh '''
-                    docker container run -d --name apache dsosnowsky/apache:${VERSION}
+                    docker container run -d --name apache dsosnowskytest/apache:${VERSION}
                     docker container exec apache apachectl configtest
                     docker container stop apache
                     docker container rm apache
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                 echo "${DOCKER_HUB}"
-                docker push dsosnowsky/apache:${VERSION}
+                docker push dsosnowskytest/apache:${VERSION}
                 '''
             }
            
