@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+    }
+
     stages {
         stage('Build image') {
             steps {
@@ -11,6 +15,7 @@ pipeline {
         stage ('Test image') {
             steps {
                 sh '''
+                    docker logout
                     docker container run -d --name apache dsosnowskytest/apache:${VERSION}
                     docker container exec apache apachectl configtest
                     docker container stop apache
@@ -22,8 +27,7 @@ pipeline {
         stage ('Push image') {
             steps {
                 sh '''
-		echo "${PASSWORD}"
-                docker login -u dsosnowskytest -p ${PASSWORD}
+                echo ${DOCKER_HUB_CREDENTIALS_PSW} | docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin
                 docker push dsosnowskytest/apache:${VERSION}
                 '''
             }
