@@ -15,8 +15,6 @@ pipeline {
         stage ('Test image') {
             steps {
                 sh '''
-                    docker container stop ${IMAGE_NAME}
-                    docker container rm ${IMAGE_NAME}
                     docker container run -d --name ${IMAGE_NAME} ${DOCKER_HUB_CREDENTIALS_USR}/${IMAGE_NAME}:${VERSION}
                     docker container exec ${IMAGE_NAME} apachectl configtest
                     docker container stop ${IMAGE_NAME}
@@ -47,13 +45,10 @@ pipeline {
             steps {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
-                        ssh -o StrictHostKeyChecking=no dsosnowski@192.168.0.17
-                        docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
-
-                        docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
-
-                        docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
-                        docker container exec ${IMAGE_NAME} apachectl configtest
+                        ssh ${SSH_USERNAME}@${HOST} docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
+                        ssh ${SSH_USERNAME}@${HOST} docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
+                        ssh ${SSH_USERNAME}@${HOST} docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
+                        ssh ${SSH_USERNAME}@${HOST} docker container exec ${IMAGE_NAME} apachectl configtest
 
                     '''
                 }
