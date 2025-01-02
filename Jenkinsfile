@@ -40,6 +40,14 @@ pipeline {
             }
            
         }
+
+        stage ('Deploy') {
+            steps {
+                sshagent(credentials: ['dsosnowski-ssh']){
+                    sh 'echo "Hello World"'
+                }
+            }
+        }
     }
 
     post {
