@@ -46,8 +46,7 @@ pipeline {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
                         [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
-                        ssh dsosnowski@192.168.0.17
-                        echo "Hello World"
+                        ssh dsosnowski@192.168.0.17 "ls -l ~"
                     '''
                 }
             }
