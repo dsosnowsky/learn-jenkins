@@ -45,13 +45,11 @@ pipeline {
             steps {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
-                        ssh -T ${SSH_USERNAME}@${HOST} <<EOF
+                        ssh ${SSH_USERNAME}@${HOST} <<EOF
                             docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
                             docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
                             docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
                             docker container exec ${IMAGE_NAME} apachectl configtest
-                        EOF
-
                     '''
                 }
             }
