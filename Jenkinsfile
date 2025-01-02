@@ -46,7 +46,6 @@ pipeline {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
                         [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
-                        ssh-keyscan -t rsa,dsa example.com >> ~/.ssh/known_hosts
                         ssh dsosnowski@192.168.0.17
                         echo "Hello World"
                     '''
