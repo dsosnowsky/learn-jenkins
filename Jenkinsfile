@@ -46,10 +46,10 @@ pipeline {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
                         ssh ${SSH_USERNAME}@${HOST} <<EOF
-                            ${SSH_USERNAME}@${HOST} docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
-                            ${SSH_USERNAME}@${HOST} docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
-                            ${SSH_USERNAME}@${HOST} docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
-                            ${SSH_USERNAME}@${HOST} docker container exec ${IMAGE_NAME} apachectl configtest
+                            docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
+                            docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
+                            docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
+                            docker container exec ${IMAGE_NAME} apachectl configtest
                             EOF
 
                     '''
