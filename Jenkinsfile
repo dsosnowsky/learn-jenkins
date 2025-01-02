@@ -46,7 +46,7 @@ pipeline {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
                         ssh -o StrictHostKeyChecking=no dsosnowski@192.168.0.17
-                        docker pull ${IMAGE_NAME}:${VERSION}
+                        docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
 
                         if [ $(docker container ls | grep -wc ${IMAGE_NAME}) -gt 0 ]
                         then
