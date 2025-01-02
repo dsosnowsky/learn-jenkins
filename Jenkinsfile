@@ -45,7 +45,8 @@ pipeline {
             steps {
                 sshagent(credentials: ['dsosnowski-ssh']){
                     sh '''
-                        ssh -o StrictHostKeyChecking=no dsosnowski@192.168.0.17 uptime
+                        ssh -o StrictHostKeyChecking=no dsosnowski@192.168.0.17
+                        echo "Hello World"
                     '''
                 }
             }
