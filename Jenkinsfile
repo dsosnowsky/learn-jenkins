@@ -15,6 +15,7 @@ pipeline {
         stage ('Test image') {
             steps {
                 sh '''
+                    docker container stop ${IMAGE_NAME}
                     docker container rm ${IMAGE_NAME}
                     docker container run -d --name ${IMAGE_NAME} ${DOCKER_HUB_CREDENTIALS_USR}/${IMAGE_NAME}:${VERSION}
                     docker container exec ${IMAGE_NAME} apachectl configtest
