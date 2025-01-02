@@ -48,10 +48,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no dsosnowski@192.168.0.17
                         docker pull ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
 
-                        if [ $(docker container ls | grep -wc ${IMAGE_NAME}) -gt 0 ]
-                        then
-                            docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
-                        fi
+                        docker container stop ${IMAGE_NAME} && docker container rm ${IMAGE_NAME}
 
                         docker container run -d --name ${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${VERSION}
                         docker container exec ${IMAGE_NAME} apachectl configtest
