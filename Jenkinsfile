@@ -23,6 +23,12 @@ pipeline {
             }
         }
 
+        stage ('Approval') {
+            timeout(30) {
+                input message: '', ok: 'I\'m ready to push the image'
+            }
+        }
+
         stage ('Push image') {
             steps {
                 sh '''
